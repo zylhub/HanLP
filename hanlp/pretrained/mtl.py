@@ -48,5 +48,12 @@ Performance: ``{con UCM: 58.47% LCM: 53.16% UP: 91.01% UR: 91.10% UF: 91.05% LP:
 Requirement: ``transformers>=4.48`` 
 '''
 
+EN_TOK_LEM_POS_NER_SRL_UDEP_SDP_CON_MODERNBERT_LARGE = HANLP_URL + 'mtl/en_tok_lem_pos_ner_srl_udep_sdp_con_modernbert_large_prepend_false_20250107_181612.zip'
+'''
+ModernBERT (:cite:`warner2024smarter`) large encoder, joint tok, lem, pos, ner, srl, dep (UD Standard), sdp (DM, PAS, PSD) and con decoders trained on English corpora.
+Performance: ``{con UCM: 59.47% LCM: 54.31% UP: 91.62% UR: 92.37% UF: 91.99% LP: 89.40% LR: 90.13% LF: 89.76%}{dep UAS: 95.35% LAS: 93.50%}{lem Accuracy:99.46%}{ner P: 89.69% R: 84.67% F1: 87.11%}{pos Accuracy:98.08%}{sdp/dm UF: 94.04% LF: 93.35%}{sdp/pas UF: 96.33% LF: 94.80%}{sdp/psd UF: 94.12% LF: 83.71%}{srl [predicate P: 99.15% R: 98.66% F1: 98.91%][e2e P: 97.16% R: 94.60% F1: 95.86%]}{tok P: 99.83% R: 99.90% F1: 99.87%}``
+Requirement: ``transformers>=4.48`` 
+'''
+
 # Will be filled up during runtime
 ALL = {}
