@@ -278,9 +278,9 @@ class SpanRankingSRLDecoder(nn.Module):
             sparse_indices = torch.cat([sparse_indices, span_parents.unsqueeze(2)], 2)
 
         rank = 3 if span_parents is None else 4
-        dense_labels = torch.sparse.LongTensor(sparse_indices.view(num_sentences * max_spans_num, rank).t(),
-                                               span_labels.view(-1),
-                                               torch.Size([num_sentences] + [max_sentence_length] * (rank - 1))) \
+        dense_labels = _sparse_tensor(sparse_indices.view(num_sentences * max_spans_num, rank).t(),
+                                      span_labels.view(-1),
+                                      torch.Size([num_sentences] + [max_sentence_length] * (rank - 1))) \
             .to_dense()
         return dense_labels
 
