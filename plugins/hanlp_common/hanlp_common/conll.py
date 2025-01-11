@@ -223,7 +223,7 @@ class CoNLLSentence(list):
         return CoNLLSentence(words)
 
     @staticmethod
-    def from_file(path: str, conllu=False):
+    def from_file(path: str, conllu=None):
         """Build a CoNLLSentence from ``.conllx`` or ``.conllu`` file
 
         Args:
@@ -233,6 +233,8 @@ class CoNLLSentence(list):
         Returns:
             A :class:`~hanlp_common.conll.CoNLLSentence`.
         """
+        if conllu is None:
+            conllu = path.endswith('.conllu')
         with open(path) as src:
             return [CoNLLSentence.from_str(x, conllu) for x in src.read().split('\n\n') if x.strip()]
 
