@@ -513,7 +513,7 @@ class MultiTaskLearning(TorchComponent):
                         continue
                     output_dict = self.predict_task(self.tasks[task_name], task_name, batch, results, output_dict,
                                                     run_transform=True, cls_is_bos=cls_is_bos, sep_is_eos=sep_is_eos)
-                if group_id == 0:
+                if group_id == 0 and len(target_tasks) > 1:
                     # We are kind of hard coding here. If the first task is a tokenizer,
                     # we need to convert the hidden and mask to token level
                     if first_task_name.startswith('tok'):
