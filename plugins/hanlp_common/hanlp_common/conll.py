@@ -68,14 +68,20 @@ class CoNLLWord(SerializableDict):
                     [self.form, self.lemma, self.cpos, self.pos, self.feats, self.head, self.deprel, self.phead,
                      self.pdeprel] if f)
 
-    def get_pos(self):
+    def get_pos(self, main_pos=False):
         """
         Get the precisest pos for this word.
+
+        Args:
+            main_pos: Use the main pos (cpos or upos) or the minor pos (pos or xpos).
 
         Returns: ``self.pos`` or ``self.cpos``.
 
         """
-        return self.pos or self.cpos
+        if main_pos:
+            return self.cpos or self.pos
+        else:
+            return self.pos or self.cpos
 
 
 class CoNLLUWord(SerializableDict):
@@ -155,14 +161,20 @@ class CoNLLUWord(SerializableDict):
                     [self.form, self.lemma, self.upos, self.xpos, self.feats, self.head, self.deprel, self.deps,
                      self.misc] if f)
 
-    def get_pos(self):
+    def get_pos(self, main_pos=False):
         """
         Get the precisest pos for this word.
+
+        Args:
+            main_pos: Use the main pos (cpos or upos) or the minor pos (pos or xpos).
 
         Returns: ``self.xpos`` or ``self.upos``
 
         """
-        return self.xpos or self.upos
+        if main_pos:
+            return self.upos or self.xpos
+        else:
+            return self.xpos or self.upos
 
 
 class CoNLLSentence(list):
@@ -283,11 +295,12 @@ class CoNLLSentence(list):
         text = markdown_table(headings, cells, alignment=alignment)
         return text
 
-    def to_tree(self, extras: List[str] = None) -> str:
+    def to_tree(self, extras: List[str] = None, main_pos=True) -> str:
         """Convert into a pretty tree string which can be printed to show the tree structure.
 
         Args:
             extras: Extra table to be aligned to this tree.
+            main_pos: Use the main pos (cpos or upos) or the minor pos (pos or xpos).
 
         Returns:
             A pretty tree string along with extra table if passed any.
@@ -313,7 +326,7 @@ class CoNLLSentence(list):
             if has_lem:
                 cell_per_word.append(word.lemma)
             if has_pos:
-                cell_per_word.append(word.get_pos())
+                cell_per_word.append(word.get_pos(main_pos))
             if extras:
                 cell_per_word.extend(extras[i + 1])
             rows.append(cell_per_word)

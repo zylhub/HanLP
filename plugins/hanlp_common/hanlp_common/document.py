@@ -365,7 +365,7 @@ class Document(dict):
                     r.extend(s)
             # warnings.warn('Unable to visualize non-projective trees.')
             if dep in self and conll.projective:
-                text = conll.to_tree(extras)
+                text = conll.to_tree(extras, main_pos=True)
                 if not show_header:
                     text = text.split('\n')
                     text = '\n'.join(text[2:])
