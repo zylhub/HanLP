@@ -18,6 +18,10 @@ CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ELECTRA_BASE_ZH = HANLP_URL + 'mtl/close_tok_p
 "Electra (:cite:`clark2020electra`) base version of joint tok, pos, ner, srl, dep, sdp and con model trained on close-source Chinese corpus."
 CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ERNIE_GRAM_ZH = HANLP_URL + 'mtl/close_tok_pos_ner_srl_dep_sdp_con_ernie_gram_base_aug_20210904_145403.zip'
 "ERNIE (:cite:`xiao-etal-2021-ernie`) base version of joint tok, pos, ner, srl, dep, sdp and con model trained on close-source Chinese corpus."
+KYOTO_EVAHAN_TOK_LEM_POS_UDEP_LZH = HANLP_URL + 'mtl/kyoto_evahan_tok_lem_pos_udep_bert-ancient-chinese_lr_1_aug_dict_20250112_154422.zip'
+'Ancient Chinese tokenizer with bert-ancient-chinese (:cite:`wang2022uncertainty`) encoder trained on Classical Chinese ' \
+'Universal Dependencies Treebank (:cite:`yasuoka2019universal`) and EvaHan corpus (:cite:`li-etal-2022-first`). ' \
+'Performance: {tok/fine P: 98.91% R: 99.11% F1: 99.01%}{tok/coarse P: 94.71% R: 92.51% F1: 93.60%}{lem Accuracy:98.86%}{pos/upos Accuracy:94.91%}{pos/xpos Accuracy:93.79%}{pos/pku Accuracy:91.91%}{dep UAS: 88.70% LAS: 83.89%}'
 
 UD_ONTONOTES_TOK_POS_LEM_FEA_NER_SRL_DEP_SDP_CON_MMINILMV2L6 = HANLP_URL + 'mtl/ud_ontonotes_tok_pos_lem_fea_ner_srl_dep_sdp_con_mMiniLMv2L6_no_space_20220731_161526.zip'
 '''
