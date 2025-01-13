@@ -15,9 +15,12 @@ with open(join(this_dir, "hanlp", "version.py")) as fp:
 FASTTEXT = 'fasttext-wheel==0.9.2'
 sys_version_info = sys.version_info
 
-TOKENIZERS = []
-if (sys_version_info.major, sys_version_info.minor) == (3, 6) and sys.platform in {'darwin', 'win32'}:
-    TOKENIZERS = ['tokenizers==0.10.3']
+EXTRAS = []
+if sys.platform in {'darwin', 'win32'}:
+    if (sys_version_info.major, sys_version_info.minor) == (3, 6):
+        EXTRAS = ['tokenizers==0.10.3']
+    elif (sys_version_info.major, sys_version_info.minor) == (3, 7):
+        EXTRAS = ['safetensors<0.5']  # Failed to build safetensors
 
 extras_require = {
     'amr': [
@@ -64,10 +67,10 @@ setup(
         'transformers>=4.1.1',
         'sentencepiece>=0.1.91',  # Essential for tokenization_bert_japanese
         'torch>=1.6.0',
-        'hanlp-common>=0.0.22',
+        'hanlp-common>=0.0.23',
         'hanlp-trie>=0.0.4',
         'hanlp-downloader',
-        *TOKENIZERS,
+        *EXTRAS,
     ],
     extras_require=extras_require,
     python_requires='>=3.6',
