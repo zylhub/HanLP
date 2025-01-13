@@ -35,10 +35,12 @@ MSR_TOK_ELECTRA_BASE_CRF = 'http://download.hanlp.com/tok/extra/msra_crf_electra
 'which is much higher than that of MTL model '
 
 KYOTO_EVAHAN_TOK_LZH = 'http://download.hanlp.com/tok/extra/kyoto_evahan_tok_bert-ancient-chinese_tau_0.5_20250111_234146.zip'
-'Ancient Chinese tokenizer with bert-ancient-chinese (:cite:`wang2022uncertainty`) encoder trained on Classical Chinese ' \
-'Universal Dependencies Treebank (:cite:`YASK:2019`) and EvaHan corpus (:cite:`li-etal-2022-first`). ' \
-'Performance: {UD P: 98.85% R: 99.00% F1: 98.92%} on UD Kyoto, ' \
-'and {TestA P: 95.62% R: 96.56% F1: 96.09%} {TestB P: 94.93% R: 93.05% F1: 93.98%} on EvaHan.'
+'''
+Ancient Chinese tokenizer with bert-ancient-chinese (:cite:`wang2022uncertainty`) encoder trained on Classical Chinese
+Universal Dependencies Treebank (:cite:`yasuoka2019universal`) and EvaHan corpus (:cite:`li-etal-2022-first`).
+Performance: ``{UD P: 98.85% R: 99.00% F1: 98.92%}`` on UD Kyoto,
+and ``{TestA P: 95.62% R: 96.56% F1: 96.09%} {TestB P: 94.93% R: 93.05% F1: 93.98%}`` on EvaHan.
+'''
 
 UD_TOK_MMINILMV2L6 = HANLP_URL + 'tok/ud_tok_mMiniLMv2L6_no_space_mul_20220619_091824.zip'
 '''
