@@ -248,9 +248,9 @@ class TorchComponent(Component, ABC):
             _dummy_placeholder = self._create_dummy_placeholder_on(first_device)
         if finetune:
             if isinstance(finetune, str):
-                self.load(finetune, devices=devices)
+                self.load(finetune, devices=devices, **self.config)
             else:
-                self.load(save_dir, devices=devices)
+                self.load(save_dir, devices=devices, **self.config)
             self.config.finetune = finetune
             self.vocabs.unlock()  # For extending vocabs
             logger.info(
