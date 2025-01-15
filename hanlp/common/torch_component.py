@@ -246,12 +246,13 @@ class TorchComponent(Component, ABC):
             first_device = -1
         if _device_placeholder and first_device >= 0:
             _dummy_placeholder = self._create_dummy_placeholder_on(first_device)
-        if finetune:
-            if isinstance(finetune, str):
-                self.load(finetune, devices=devices, **self.config)
-            else:
-                self.load(save_dir, devices=devices, **self.config)
-            self.config.finetune = finetune
+        if finetune or self.model:
+            if not self.model:
+                if isinstance(finetune, str):
+                    self.load(finetune, devices=devices, **self.config)
+                else:
+                    self.load(save_dir, devices=devices, **self.config)
+            self.config.finetune = finetune or True
             self.vocabs.unlock()  # For extending vocabs
             logger.info(
                 f'Finetune model loaded with {sum(p.numel() for p in self.model.parameters() if p.requires_grad)}'
