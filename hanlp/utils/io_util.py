@@ -555,7 +555,11 @@ def stdout_redirected(to=os.devnull, stdout=None):
         return
     if stdout is None:
         stdout = sys.stdout
-    stdout_fd = fileno(stdout)
+    try:
+        stdout_fd = fileno(stdout)
+    except ValueError:
+        yield None
+        return
     if not stdout_fd:
         yield None
         return
