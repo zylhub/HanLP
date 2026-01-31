@@ -1,11 +1,13 @@
 # -*- coding:utf-8 -*-
 # Author: hankcs
 # Date: 2020-12-08 18:35
-from typing import List
+from typing import List, Dict, Any
 
 from hanlp.common.transform import TransformList
+from hanlp.components.mtl.tasks.pos import TransformerTagging
 from hanlp.components.parsers.ud.lemma_edit import gen_lemma_rule, apply_lemma_rule
 from hanlp.components.taggers.transformers.transformer_tagger import TransformerTagger
+from hanlp_common.document import Document
 
 
 def add_lemma_rules_to_sample(sample: dict):
@@ -39,4 +41,30 @@ class TransformerLemmatizer(TransformerTagger):
         rules = super().prediction_to_human(pred, vocab, batch)
         for token_per_sent, rule_per_sent in zip(token, rules):
             lemma_per_sent = [apply_lemma_rule(t, r) for t, r in zip(token_per_sent, rule_per_sent)]
+            for i, (t, l) in enumerate(zip(token_per_sent, lemma_per_sent)):
+                if t.isdigit():
+                    lemma_per_sent[i] = t
             yield lemma_per_sent
+
+
+class TransformerTaggingLemmatizer(TransformerTagging):
+
+    def transform_batch(self, batch: Dict[str, Any], results: Dict[str, Any] = None, cls_is_bos=False,
+                        sep_is_eos=False) -> Dict[str, Any]:
+        return batch
+
+
+    def finalize_document(self, doc: Document, task_name: str):
+        tok = doc.get_by_prefix('tok')
+        if tok:
+            for tokens, lemmas in zip(tok, doc.get_by_prefix('lem')):
+                if len(''.join(tokens)) == len(''.join(lemmas)):
+                    # Map lemmas into tokens
+                    mapped_lemmas = []
+                    offset = 0
+                    for token in tokens:
+                        mapped_lemmas.append(''.join(lemmas[offset:offset + len(token)]))
+                        offset += len(token)
+                    lemmas.clear()
+                    lemmas.extend(mapped_lemmas)
+        super().finalize_document(doc, task_name)

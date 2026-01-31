@@ -14,6 +14,7 @@ tokenizer_mirrors = {
     'xlm-roberta-base-no-space': HANLP_URL + 'transformers/xlm-roberta-base-no-space-tokenizer_20220610_204241.zip',
     'mMiniLMv2L6-no-space': HANLP_URL + 'transformers/mMiniLMv2L6-no-space-tokenizer_20220616_094859.zip',
     'mMiniLMv2L12-no-space': HANLP_URL + 'transformers/mMiniLMv2L12-no-space-tokenizer_20220616_095900.zip',
+    'Jihuai/bert-ancient-chinese': HANLP_URL + 'transformers/bert-ancient-chinese_20250110_184326.zip',
 }
 
 model_mirrors = {
@@ -21,6 +22,7 @@ model_mirrors = {
     'xlm-roberta-base-no-space': HANLP_URL + 'transformers/xlm-roberta-base-no-space_20220610_203944.zip',
     'mMiniLMv2L6-no-space': HANLP_URL + 'transformers/mMiniLMv2L6-no-space_20220616_094949.zip',
     'mMiniLMv2L12-no-space': HANLP_URL + 'transformers/mMiniLMv2L12-no-space_20220616_095924.zip',
+    'Jihuai/bert-ancient-chinese': HANLP_URL + 'transformers/bert-ancient-chinese_20250110_184326.zip',
 }
 
 

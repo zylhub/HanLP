@@ -97,7 +97,10 @@ class TorchComponent(Component, ABC):
         save_dir = get_resource(save_dir)
         filename = os.path.join(save_dir, filename)
         # flash(f'Loading model: {filename} [blink]...[/blink][/yellow]')
-        self.model_.load_state_dict(torch.load(filename, map_location='cpu'), strict=False)
+        try:
+            self.model_.load_state_dict(torch.load(filename, map_location='cpu', weights_only=True), strict=False)
+        except TypeError:
+            self.model_.load_state_dict(torch.load(filename, map_location='cpu'), strict=False)
         # flash('')
 
     def save_config(self, save_dir, filename='config.json'):
@@ -243,11 +246,14 @@ class TorchComponent(Component, ABC):
             first_device = -1
         if _device_placeholder and first_device >= 0:
             _dummy_placeholder = self._create_dummy_placeholder_on(first_device)
-        if finetune:
-            if isinstance(finetune, str):
-                self.load(finetune, devices=devices)
-            else:
-                self.load(save_dir, devices=devices)
+        if finetune or self.model:
+            if not self.model:
+                if isinstance(finetune, str):
+                    self.load(finetune, devices=devices, **self.config)
+                else:
+                    self.load(save_dir, devices=devices, **self.config)
+            self.config.finetune = finetune or True
+            self.vocabs.unlock()  # For extending vocabs
             logger.info(
                 f'Finetune model loaded with {sum(p.numel() for p in self.model.parameters() if p.requires_grad)}'
                 f'/{sum(p.numel() for p in self.model.parameters())} trainable/total parameters.')
@@ -258,13 +264,12 @@ class TorchComponent(Component, ABC):
         dev = self.build_dataloader(**merge_dict(config, data=dev_data, batch_size=batch_size, shuffle=False,
                                                  training=None, device=first_device, logger=logger, vocabs=self.vocabs,
                                                  overwrite=True)) if dev_data else None
-        if not finetune:
-            flash('[yellow]Building model [blink]...[/blink][/yellow]')
-            self.model = self.build_model(**merge_dict(config, training=True))
-            flash('')
-            logger.info(f'Model built with {sum(p.numel() for p in self.model.parameters() if p.requires_grad)}'
-                        f'/{sum(p.numel() for p in self.model.parameters())} trainable/total parameters.')
-            assert self.model, 'build_model is not properly implemented.'
+        flash('[yellow]Building model [blink]...[/blink][/yellow]')
+        self.model = self.build_model(**merge_dict(config, training=True), logger=logger)
+        flash('')
+        logger.info(f'Model built with {sum(p.numel() for p in self.model.parameters() if p.requires_grad)}'
+                    f'/{sum(p.numel() for p in self.model.parameters())} trainable/total parameters.')
+        assert self.model, 'build_model is not properly implemented.'
         _description = repr(self.model)
         if len(_description.split('\n')) < 10:
             logger.info(_description)

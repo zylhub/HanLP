@@ -162,11 +162,19 @@ class VocabDict(SerializableDict):
 
     def lock(self):
         """
-        Lock each vocabs.
+        Lock each vocab.
         """
         for key, value in self.items():
             if isinstance(value, Vocab):
                 value.lock()
+
+    def unlock(self):
+        """
+        Unlock each vocab.
+        """
+        for key, value in self.items():
+            if isinstance(value, Vocab):
+                value.unlock()
 
     @property
     def mutable(self):
@@ -295,7 +303,7 @@ class FilterField(object):
         return sample
 
 
-class TransformList(list):
+class TransformList(list, Configurable):
     """Composes several transforms together.
 
     Args:
@@ -323,6 +331,19 @@ class TransformList(list):
         for i, trans in enumerate(self):
             if isinstance(trans, t):
                 return i
+
+    @property
+    def config(self):
+        return {
+            'classpath': classpath_of(self),
+            'transforms': [t.config if hasattr(t, 'config') else {'classpath': classpath_of(t)} for t in self]
+        }
+
+    @staticmethod
+    def from_config(config: dict, **kwargs):
+        transforms = config.get('transforms', [])
+        transforms = [Configurable.from_config(i) for i in transforms]
+        return TransformList(*transforms)
 
 
 class LowerCase(object):
